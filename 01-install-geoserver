@@ -1,0 +1,125 @@
+#Thanks to:
+# http://en.joysword.com/posts/2015/05/configuring_geo_spatial_stack_on_amazon_linux/
+
+#echo steps 1 and 2
+#cd /home/ec2-user
+#sudo yum update -y
+
+#sleep 5
+#sudo yum install postgresql postgresql-server postgresql-devel -y
+#sudo mkdir /usr/local/pgsql/
+#sudo mkdir /usr/local/pgsql/data
+#sudo chown postgres /usr/local/pgsql/data
+
+##sudo su postgres
+##initdb -D /usr/local/pgsql/data
+##postgres -D /usr/local/pgsql/data &
+##exit
+#craig? sudo -u postgres initdb -D /usr/local/pgsql/data
+#craig? sudo -u postgres -D /usr/local/pgsql/data &
+#craig? /etc/rc.d/init.d/postgresql initdb
+#craig? service postgresql start
+
+#echo step 3a
+#cd /home/ec2-user
+#sudo yum install gcc make gcc-c++ libtool libxml2-devel -y
+#
+#echo step 3b
+#cd /home/ec2-user/
+#mkdir postgis
+#cd postgis
+#
+#echo step 3c
+#wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2
+#tar xjvf geos-3.4.2.tar.bz2
+#cd geos-3.4.2
+#./configure
+#make
+#sudo make install
+#
+#echo step 3d
+#cd /home/ec2-user/postgis/
+#wget http://download.osgeo.org/proj/proj-4.9.1.tar.gz
+#wget http://download.osgeo.org/proj/proj-datumgrid-1.5.zip
+#tar zxvf proj-4.9.1.tar.gz
+#cd proj-4.9.1/nad
+#unzip ../../proj-datumgrid-1.5.zip
+#cd ..
+#./configure
+#make
+#sudo make install
+#
+#echo step 3e
+#cd /home/ec2-user/postgis/
+#wget http://download.osgeo.org/postgis/source/postgis-2.1.7.tar.gz
+#tar zxvf postgis-2.1.7.tar.gz
+#cd postgis-2.1.7
+## if we do not specify --without-raster parameter, the configure process will fail
+## because we do not have GDAL installed.
+#./configure --with-geosconfig=/usr/local/bin/geos-config --without-raster
+#make
+#sudo make install
+
+#echo step 4
+#cd /home/ec2-user
+##craig replaced this: sudo su
+##craig replaced this: echo /usr/local/lib >> /etc/ld.so.conf
+##craig replaced this: exit
+#cat <<- EOF > ld.so.conf
+#include ld.so.conf.d/*.conf
+#/usr/local/lib
+#EOF
+#sudo rm /etc/ld.so.conf
+#sudo cp ld.so.conf /etc/ld.so.conf
+#sudo ldconfig
+
+#echo step 5
+#createdb -U postgres template_postgis
+#createlang -U postgres plpgsql template_postgis
+#psql -U postgres -d template_postgis < /usr/share/pgsql92/contrib/postgis-2.1/postgis.sql
+#psql -U postgres -d template_postgis < /usr/share/pgsql92/contrib/postgis-2.1/spatial_ref_sys.sql
+
+#echo step 6
+#java -version
+#
+#echo step 7
+#sudo yum install httpd httpd-devel tomcat6 -y
+#
+#echo step 8
+#cd /home/ec2-user/
+#wget http://sourceforge.net/projects/geoserver/files/GeoServer/2.7.1/geoserver-2.7.1-war.zip
+#unzip geoserver-2.7.1-war.zip
+#sudo chown tomcat:tomcat geoserver.war
+#sudo mv geoserver.war /var/lib/tomcat6/webapps/
+#
+#echo step 9
+#cd /home/ec2-user
+#mkdir mod_jk
+#cd mod_jk
+#wget http://mirror.nexcess.net/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.42-src.tar.gz
+#tar xzf tomcat-connectors-1.2.42-src.tar.gz
+#cd tomcat-connectors-1.2.42-src/native
+#./configure --with-apxs=/usr/sbin/apxs
+#make
+#sudo make install
+
+#echo step 10
+#cd /home/ec2-user
+##craig replaced: vi /etc/httpd/conf/httpd.conf
+##NOW REQUIRES A HARDCODED httpd.conf FILE!
+#sudo rm /etc/httpd/conf/httpd.conf
+#sudo cp httpd.conf /etc/httpd/conf/
+
+#echo step 11
+#cd /home/ec2-user
+##craig replaced: sudo vim /etc/httpd/conf/workers.properties
+##NOW REQUIRES A HARDCODED workers.properties FILE!
+#sudo rm /etc/httpd/conf/workers.properties
+#sudo cp workers.properties /etc/httpd/conf/
+
+#echo step 12
+#sleep 5
+#sudo /sbin/service httpd start
+#sleep 5
+#sudo /sbin/service tomcat6 start
+#
