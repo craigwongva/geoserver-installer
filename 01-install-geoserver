@@ -15,10 +15,6 @@
 ##initdb -D /usr/local/pgsql/data
 ##postgres -D /usr/local/pgsql/data &
 ##exit
-#craig? sudo -u postgres initdb -D /usr/local/pgsql/data
-#craig? sudo -u postgres -D /usr/local/pgsql/data &
-#craig? /etc/rc.d/init.d/postgresql initdb
-#craig? service postgresql start
 
 #echo step 3a
 #cd /home/ec2-user
@@ -96,7 +92,7 @@
 #cd /home/ec2-user
 #mkdir mod_jk
 #cd mod_jk
-#wget http://mirror.nexcess.net/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.42-src.tar.gz
+#wget http://mirror.metrocast.net/apache/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.42-src.tar.gz
 #tar xzf tomcat-connectors-1.2.42-src.tar.gz
 #cd tomcat-connectors-1.2.42-src/native
 #./configure --with-apxs=/usr/sbin/apxs
@@ -104,14 +100,14 @@
 #sudo make install
 
 #echo step 10
-#cd /home/ec2-user
+#cd /home/ec2-user/geoserver-installer
 ##craig replaced: vi /etc/httpd/conf/httpd.conf
 ##NOW REQUIRES A HARDCODED httpd.conf FILE!
 #sudo rm /etc/httpd/conf/httpd.conf
 #sudo cp httpd.conf /etc/httpd/conf/
 
 #echo step 11
-#cd /home/ec2-user
+#cd /home/ec2-user/geoserver-installer
 ##craig replaced: sudo vim /etc/httpd/conf/workers.properties
 ##NOW REQUIRES A HARDCODED workers.properties FILE!
 #sudo rm /etc/httpd/conf/workers.properties
