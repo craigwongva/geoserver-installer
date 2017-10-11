@@ -8,23 +8,25 @@
 #sleep 5
 #sudo yum install postgresql postgresql-server postgresql-devel -y
 #sudo mkdir /usr/local/pgsql/
-#sudo mkdir /usr/local/pgsql/data
-#sudo chown postgres /usr/local/pgsql/data
+#sudo mkdir /usr/local/pgsql/data7
+#sudo chown postgres /usr/local/pgsql/data7
 
 ##sudo su postgres
 ##initdb -D /usr/local/pgsql/data
 ##postgres -D /usr/local/pgsql/data &
 ##exit
 
+#sudo -u postgres -H sh -c "touch /tmp/701; /usr/bin/initdb -D /usr/local/pgsql/data7; touch /tmp/702; /usr/bin/postgres -D /usr/local/pgsql/data7 &"
+
 #echo step 3a
 #cd /home/ec2-user
 #sudo yum install gcc make gcc-c++ libtool libxml2-devel -y
-#
+
 #echo step 3b
 #cd /home/ec2-user/
 #mkdir postgis
 #cd postgis
-#
+
 #echo step 3c
 #wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2
 #tar xjvf geos-3.4.2.tar.bz2
@@ -32,6 +34,7 @@
 #./configure
 #make
 #sudo make install
+#above is time consuming (maybe five minutes?)
 #
 #echo step 3d
 #cd /home/ec2-user/postgis/
@@ -44,6 +47,7 @@
 #./configure
 #make
 #sudo make install
+#above doesn't take too long
 #
 #echo step 3e
 #cd /home/ec2-user/postgis/
@@ -55,6 +59,7 @@
 #./configure --with-geosconfig=/usr/local/bin/geos-config --without-raster
 #make
 #sudo make install
+#above doesn't take too long
 
 #echo step 4
 #cd /home/ec2-user
@@ -68,6 +73,7 @@
 #sudo rm /etc/ld.so.conf
 #sudo cp ld.so.conf /etc/ld.so.conf
 #sudo ldconfig
+#above doesn't take too long
 
 #echo step 5
 #createdb -U postgres template_postgis
@@ -77,9 +83,10 @@
 
 #echo step 6
 #java -version
-#
+
 #echo step 7
 #sudo yum install httpd httpd-devel tomcat6 -y
+#finished above successfully: above doesn't take too long
 #
 #echo step 8
 #cd /home/ec2-user/
@@ -87,7 +94,7 @@
 #unzip geoserver-2.7.1-war.zip
 #sudo chown tomcat:tomcat geoserver.war
 #sudo mv geoserver.war /var/lib/tomcat6/webapps/
-#
+
 #echo step 9
 #cd /home/ec2-user
 #mkdir mod_jk
@@ -98,24 +105,25 @@
 #./configure --with-apxs=/usr/sbin/apxs
 #make
 #sudo make install
+#finished above successfully: above doesn't take too long
 
-#echo step 10
-#cd /home/ec2-user/geoserver-installer
+echo step 10
+cd /home/ec2-user/geoserver-installer
 ##craig replaced: vi /etc/httpd/conf/httpd.conf
 ##NOW REQUIRES A HARDCODED httpd.conf FILE!
-#sudo rm /etc/httpd/conf/httpd.conf
-#sudo cp httpd.conf /etc/httpd/conf/
+sudo rm /etc/httpd/conf/httpd.conf
+sudo cp httpd.conf /etc/httpd/conf/
 
-#echo step 11
-#cd /home/ec2-user/geoserver-installer
+echo step 11
+cd /home/ec2-user/geoserver-installer
 ##craig replaced: sudo vim /etc/httpd/conf/workers.properties
 ##NOW REQUIRES A HARDCODED workers.properties FILE!
-#sudo rm /etc/httpd/conf/workers.properties
-#sudo cp workers.properties /etc/httpd/conf/
+sudo rm /etc/httpd/conf/workers.properties
+sudo cp workers.properties /etc/httpd/conf/
 
-#echo step 12
-#sleep 5
-#sudo /sbin/service httpd start
-#sleep 5
-#sudo /sbin/service tomcat6 start
+echo step 12
+sleep 5
+sudo /sbin/service httpd start
+sleep 5
+sudo /sbin/service tomcat6 start
 #
