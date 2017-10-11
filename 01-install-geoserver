@@ -8,15 +8,15 @@
 #sleep 5
 #sudo yum install postgresql postgresql-server postgresql-devel -y
 #sudo mkdir /usr/local/pgsql/
-#sudo mkdir /usr/local/pgsql/data7
-#sudo chown postgres /usr/local/pgsql/data7
+#sudo mkdir /usr/local/pgsql/data
+#sudo chown postgres /usr/local/pgsql/data
 
 ##sudo su postgres
 ##initdb -D /usr/local/pgsql/data
 ##postgres -D /usr/local/pgsql/data &
 ##exit
 
-#sudo -u postgres -H sh -c "touch /tmp/701; /usr/bin/initdb -D /usr/local/pgsql/data7; touch /tmp/702; /usr/bin/postgres -D /usr/local/pgsql/data7 &"
+#sudo -u postgres -H sh -c "/usr/bin/initdb -D /usr/local/pgsql/data; /usr/bin/postgres -D /usr/local/pgsql/data &"
 
 #echo step 3a
 #cd /home/ec2-user
@@ -85,7 +85,7 @@
 #java -version
 
 #echo step 7
-#sudo yum install httpd httpd-devel tomcat6 -y
+#sudo yum install httpd httpd-devel tomcat7 -y
 #finished above successfully: above doesn't take too long
 #
 #echo step 8
@@ -93,7 +93,7 @@
 #wget http://sourceforge.net/projects/geoserver/files/GeoServer/2.7.1/geoserver-2.7.1-war.zip
 #unzip geoserver-2.7.1-war.zip
 #sudo chown tomcat:tomcat geoserver.war
-#sudo mv geoserver.war /var/lib/tomcat6/webapps/
+#sudo mv geoserver.war /var/lib/tomcat7/webapps/
 
 #echo step 9
 #cd /home/ec2-user
@@ -107,23 +107,23 @@
 #sudo make install
 #finished above successfully: above doesn't take too long
 
-echo step 10
-cd /home/ec2-user/geoserver-installer
+#echo step 10
+#cd /home/ec2-user/geoserver-installer
 ##craig replaced: vi /etc/httpd/conf/httpd.conf
 ##NOW REQUIRES A HARDCODED httpd.conf FILE!
-sudo rm /etc/httpd/conf/httpd.conf
-sudo cp httpd.conf /etc/httpd/conf/
+#sudo rm /etc/httpd/conf/httpd.conf
+#sudo cp httpd.conf /etc/httpd/conf/
 
-echo step 11
-cd /home/ec2-user/geoserver-installer
+#echo step 11
+#cd /home/ec2-user/geoserver-installer
 ##craig replaced: sudo vim /etc/httpd/conf/workers.properties
 ##NOW REQUIRES A HARDCODED workers.properties FILE!
-sudo rm /etc/httpd/conf/workers.properties
-sudo cp workers.properties /etc/httpd/conf/
+#sudo rm /etc/httpd/conf/workers.properties
+#sudo cp workers.properties /etc/httpd/conf/
 
-echo step 12
-sleep 5
-sudo /sbin/service httpd start
-sleep 5
-sudo /sbin/service tomcat6 start
+#echo step 12
+#sleep 5
+#sudo /sbin/service httpd start
+#sleep 5
+#sudo /sbin/service tomcat7 start
 #
