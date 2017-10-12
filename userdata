@@ -8,7 +8,7 @@ sudo cp rc.local /etc/rc.d/rc.local                &> $TMP-1200
 #N/A: crontab cron-backup.txt                            &> $TMP-1300
 
 #Install any app components.
-./01-installer-geoserver                           &> $TMP-1400
+./01-install-geoserver                             &> $TMP-1400
 
 #Get any data components.
 #N/A: aws s3 cp s3://redf4rth-say-next/univision.mv.db ~ &> $TMP-1600
