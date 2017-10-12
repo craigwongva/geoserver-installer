@@ -1,0 +1,11 @@
+TMP=/tmp/reboot
+
+#Publish IP
+/home/ec2-user/geoserver-installer/upsert-route53       &> $TMP-1500
+
+#Set up the app
+cd /home/ec2-user/geoserver-installer                   &> $TMP-1600
+
+#Run the app
+sudo service httpd start                                &> $TMP-1700
+sudo service tomcat7 start                              &> $TMP-1800
