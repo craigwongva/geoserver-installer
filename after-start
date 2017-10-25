@@ -6,6 +6,18 @@ TMP=/tmp/reboot
 #Set up the app
 cd /home/ec2-user/geoserver-installer                   &> $TMP-1600
 
+aws ec2 delete-security-group --group-name geoserver --region us-west-2 &> $TMP-2204
+aws ec2 create-security-group --group-name geoserver --vpc vpc-a0383dc5 --region us-west-2 --description geoserver &> $TMP-2205
+
+TEMP_GEOSERVER_SECGRP=`aws ec2 describe-security-groups --region us-west-2 | jq '.SecurityGroups | .[] | select((.GroupName | contains("geoserver"))) | .GroupId' | sed s/\"//g` &> $TMP-2208
+TEMP_TRAC1=`aws cloudformation describe-stack-resources --stack-name trac --region us-west-2 | jq '.StackResources | .[].PhysicalResourceId'` &> $TMP-2220
+TEMP_TRAC2=`aws ec2 describe-instances --region us-west-2 | jq ".Reservations | .[] | select((.Instances[].InstanceId | contains($TEMP_TRAC1))) | .Instances | .[].PublicIpAddress" | sed s/\"//g` &> $TMP-2224
+aws ec2 authorize-security-group-ingress --group-id $TEMP_GEOSERVER_SECGRP --cidr $TEMP_TRAC2/32 --port 22 --protocol tcp --region us-west-2 &> $TMP-2226
+
+#enable ec2w browser to access geoserver
+TEMP_EC2W_PUBLICIP=`aws route53 list-resource-record-sets --hosted-zone-id Z14MX2BF8JTF7J | jq '.ResourceRecordSets  | .[] | select((.Name | contains("ec2w"))) | select((.Type | contains("A"))) | .ResourceRecords | .[] | .Value' | sed s/\"//g` &> $TMP-2300
+aws ec2 authorize-security-group-ingress --group-id $TEMP_GEOSERVER_SECGRP --cidr $TEMP_EC2W_PUBLICIP/32 --port 80 --protocol tcp --region us-west-2 &> $TMP-2326
+
 #Run the app
-sudo service httpd start                                &> $TMP-1700
-sudo service tomcat7 start                              &> $TMP-1800
+sudo service httpd start                                &> $TMP-3700
+sudo service tomcat7 start                              &> $TMP-3800
