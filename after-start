@@ -6,6 +6,8 @@ TMP=/tmp/reboot
 #Set up the app
 cd /home/ec2-user/geoserver-installer                   &> $TMP-1600
 
+sudo yum install jq -y                                  &> $TMP-1603
+
 aws ec2 delete-security-group --group-name geoserver --region us-west-2 &> $TMP-2204
 aws ec2 create-security-group --group-name geoserver --vpc vpc-a0383dc5 --region us-west-2 --description geoserver &> $TMP-2205
 
