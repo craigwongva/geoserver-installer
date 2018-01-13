@@ -10,9 +10,6 @@
 "Parameters": {
   "githubpassword" : {
     "Type" : "String"
-  },
-  "secgrp" : {
-    "Type" : "String"
   }
 },
 "Resources": {
@@ -34,7 +31,7 @@
     "InstanceType": "t2.small",
     "KeyName":  "oregonkeypair" ,
     "SecurityGroupIds": [
-     { "Ref": "secgrp" }
+      "sg-e2641f9f"
     ],
     "IamInstanceProfile": "RoleForTestingRoles",
     "UserData": {"Fn::Base64": {"Fn::Join": ["",
